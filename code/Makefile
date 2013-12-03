@@ -12,11 +12,17 @@ F_CPU      = 1200000  # Main clock frequency (9.6Mhz/8 = 1.2Mhz)
 
 # GCC config
 CC         = avr-gcc
-CFLAGS     = -std=gnu99
-CFLAGS     += -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+OBJDUMP    = avr-objdump
+OBJCOPY    = avr-objcopy
+
+# Compile flags
+OPTLEVEL   = s
+CFLAGS     = -I. -std=gnu99 -O$(OPTLEVEL)
+CFLAGS     += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS     += -mmcu=$(MCU_GCC) -DF_CPU=$(F_CPU)
-CFLAGS     += -Wall -Wstrict-prototypes
-LDFLAGS    =
+CFLAGS     += -Wall -Wextra -Wstrict-prototypes
+
+# Target
 TARGET     = main.hex
 
 # Avrdude config
@@ -26,11 +32,18 @@ DUDE = avrdude
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.debug.o: %.c
+	$(CC) $(CFLAGS) -g -c $< -o $@
+
 %.elf: %.o
-	$(CC) $(LDFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 %.hex: %.elf
-	avr-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
+	$(OBJCOPY) -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
+
+%.asm: %.debug.o
+	$(OBJDUMP) -d -S $< > $@
+
 
 all: $(TARGET)
 
