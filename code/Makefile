@@ -3,23 +3,28 @@ MCU_GCC    = attiny13
 MCU_DUDE   = t13
 PROGRAMMER = usbasp
 
+# ATtiny13a
+LFUSE    = 0x6a
+HFUSE    = 0xff
+BITCLOCK = 250
+F_CPU    = 1200000
+
 # GCC config
 CC      = avr-gcc
-CFLAGS  = -Wall -mmcu=$(MCU_GCC) -std=gnu99 -Os
+CFLAGS  = -Wall -mmcu=$(MCU_GCC) -std=gnu99 -Os -DF_CPU=$(F_CPU)
 LDFLAGS = 
 TARGET  = main.hex
 
 # Avrdude config
 DUDE = avrdude
 
-# ATtiny13a fuses
-LFUSE    = 0x6a
-HFUSE    = 0xff
-BITCLOCK = 250
 
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-%.elf: %.c
+%.elf: %.o
 	$(CC) $(CFLAGS) $< -o $@
+
 
 %.hex: %.elf
 	avr-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
