@@ -17,8 +17,9 @@ OBJCOPY    = avr-objcopy
 
 # Compile flags
 OPTLEVEL   = s
-CFLAGS     = -I. -std=gnu99 -O$(OPTLEVEL)
+CFLAGS     = -I. -std=gnu99
 CFLAGS     += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS     += -O$(OPTLEVEL) -mcall-prologues
 CFLAGS     += -mmcu=$(MCU_GCC) -DF_CPU=$(F_CPU)
 CFLAGS     += -Wall -Wextra -Wstrict-prototypes
 
