@@ -24,10 +24,11 @@ RES = 20;
 
 // MAIN
 
-casing();
-*battery_holder();
-*attiny();
-cutouts();
+union() {
+	bottom_casing();
+	battery_holder([0,-3,0]);
+	attiny([0,17,0]);
+}
 
 
 // MODULES
@@ -42,6 +43,14 @@ module case_base(h)
 	}
 }
 
+// Plane to remove top/bottom half of the model
+// Use a "side" value of -1 for the lower half,
+// and 1 for the upper half.
+module halving(side) {
+	translate([0,0,side*10])
+		cube([100,100,20], center=true);
+}
+
 // Add rounded edges to the case.
 module casing() {
 	minkowski() {
@@ -50,20 +59,58 @@ module casing() {
 	}
 }
 
+// Top part of the case + cutouts
+module top_casing() {
+	difference() {
+		casing();
+		cutouts();
+		halving(-1);
+	}
+}
+
+// Bottom part of the case + cutouts
+module bottom_casing() {
+	difference() {
+		casing();
+		cutouts();
+		halving(1);
+	}
+}
+
 // Cutouts
 module cutouts() {
+	slider_rot = asin(10/40);
+	slider_x = sin(slider_rot)*25 + 9.1;
+	slider_y = 40 - cos(slider_rot)*25;
 
-	// LED Hole
-	translate([0,47.5,0]) rotate([90,0,0]) {
-		cylinder(h=3, r=2.5, $fn=RES);
+	union() {
+		// LED Hole
+		translate([0,47.5,0]) rotate([90,0,0]) {
+			cylinder(h=3, r=2.5, $fn=RES);
+		}
+
+		// Inside
+		case_base(CASE_H);
+
+		// Top button
+		translate([0,28,2]) cylinder(h=3, r=10, $fn=RES);
+
+		// Slider button
+		translate([-slider_x,slider_y,0]) rotate([0,0,-slider_rot]) union() {
+			rotate([0,-90,0])
+				cube([3.7,8.7,4], center=true);
+			linear_extrude(height=3.7)
+				polygon(points=[
+					[-3.7/2,+8.7/2-1],[-3.7/2,-8.7/2+1],
+					[-3.7/2-1.5,-8.7/2],[-3.7/2-1.5,+8.7/2]
+				], paths=[0:3]);
+		}
 	}
-
-	// Inside
-	case_base(CASE_H);
 }
 
 // Battery holder for CR2032
-module battery_holder() {
+module battery_holder(transl) {
+	translate(transl)
 	difference() {
 		// Outer ring
 		cylinder(h=BAT_H, r=12.05, center=true, $fn=50);
@@ -80,7 +127,8 @@ module battery_holder() {
 }
 
 // ATtiny13A
-module attiny() {
+module attiny(transl) {
+	translate(transl)
 	difference() {
 		cube([7,10,ATT_H], center=true);
 		hull() {
