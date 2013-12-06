@@ -13,7 +13,7 @@
 CASE_H = 6.7;
 
 // Height of ATtiny holder
-ATT_H = 1.3;
+ATT_H = 1.35;
 
 // Height of button holder
 BTN_H = 3.5;
@@ -68,7 +68,7 @@ module part_button() {
 		cylinder(h=2.35, r=9.8, $fn=RES);
 		cylinder(h=1, r=11.3, $fn=RES);
 	}
-	translate([0,28,0]) cylinder(h=2.7, r=2.4, $fn=RES);
+	translate([0,28,1]) cylinder(h=2.7, r=2.4, $fn=RES);
 }
 
 // Plane to remove top/bottom half of the model
@@ -121,7 +121,7 @@ module cutouts() {
 		// Slider button
 		translate([-slider_x,slider_y,0]) rotate([0,-90,-slider_rot])
 		union() {
-			cube([4.9,8.4,1], center=true);
+			cube([4.9,8.7,1], center=true);
 			translate([-0.35,0,1]) cube([2.2,4.4,2], center=true);
 		}
 	}
@@ -154,10 +154,10 @@ module battery_holder_cr1220(transl) {
 	translate([0,0,-CASE_H/2+height/2])
 	difference() {
 		// Outer ring
-		cylinder(h=height, r=8.5, center=true, $fn=RES);
+		cylinder(h=height, r=9.2, center=true, $fn=RES);
 
 		// Inner ring
-		cylinder(h=height, r=7.5, center=true, $fn=RES);
+		cylinder(h=height, r=7.7, center=true, $fn=RES);
 
 		// Room for + connector
 		translate([0,-2.5,-height/2]) cube([13.25,5,height]);
@@ -205,5 +205,5 @@ module slider_support() {
 	slider_rot = asin(10/40);
 	rotate([0,0,-slider_rot])
 		translate([-18,11.1,-2.96])
-			cube([3.7,8.4,1], center=true);
+			cube([3.7,8.7,1], center=true);
 }
