@@ -13,7 +13,7 @@
 CASE_H = 6.7;
 
 // Height of ATtiny holder
-ATT_H = 1.2;
+ATT_H = 1.3;
 
 // Height of button holder
 BTN_H = 3.5;
@@ -65,7 +65,7 @@ module part_bottom() {
 
 module part_button() {
 	translate([0,28,2.35]) union() {
-		cylinder(h=2.35, r=9.88, $fn=RES);
+		cylinder(h=2.35, r=9.8, $fn=RES);
 		cylinder(h=1, r=11.3, $fn=RES);
 	}
 	translate([0,28,0]) cylinder(h=2.7, r=2.4, $fn=RES);
@@ -121,8 +121,8 @@ module cutouts() {
 		// Slider button
 		translate([-slider_x,slider_y,0]) rotate([0,-90,-slider_rot])
 		union() {
-			cube([4.7,8.2,1], center=true);
-			translate([-0.25,0,1]) cube([2,4.2,2], center=true);
+			cube([4.9,8.4,1], center=true);
+			translate([-0.35,0,1]) cube([2.2,4.4,2], center=true);
 		}
 	}
 }
@@ -131,6 +131,7 @@ module cutouts() {
 module battery_holder_cr2032(transl) {
 	height = 5;
 	translate(transl)
+	translate([0,0,-CASE_H/2+height/2])
 	difference() {
 		// Outer ring
 		cylinder(h=height, r=12.05, center=true, $fn=RES);
@@ -150,6 +151,7 @@ module battery_holder_cr2032(transl) {
 module battery_holder_cr1220(transl) {
 	height = 4.4+1.2;
 	translate(transl)
+	translate([0,0,-CASE_H/2+height/2])
 	difference() {
 		// Outer ring
 		cylinder(h=height, r=8.5, center=true, $fn=RES);
@@ -170,11 +172,11 @@ module attiny(transl) {
 	translate(transl)
 	translate([0,0,-CASE_H/2+ATT_H/2])
 	difference() {
-		cube([7,10,ATT_H], center=true);
+		cube([8,11,ATT_H], center=true);
 		hull() {
-			cube([5,8.5,ATT_H], center=true);
+			cube([5.5,9,ATT_H], center=true);
 			translate([0,0,ATT_H/2]) {
-				cube([6,9,0.1], center=true);
+				cube([6.5,9.5,0.1], center=true);
 			}
 		}
 	}
@@ -187,19 +189,14 @@ module button(transl) {
 	union() {
 		// Main sides
 		difference() {
-			cube([7,7,BTN_H], center=true);
+			cube([7,9,BTN_H], center=true);
 			cube([8,6,BTN_H], center=true);
 		}
 		// Top bars
-		translate([0,0,BTN_H/2+0.25]) difference() {
+		*translate([0,0,BTN_H/2+0.25]) difference() {
 			cube([7,7,0.5], center=true);
 			cube([7,5.5,0.5], center=true);
 		}
-		// Support
-		translate([0,-4.5,-BTN_H/2+0.5])
-			cube([7,2,1], center=true);
-		translate([0,4.5,-BTN_H/2+0.5])
-			cube([7,2,1], center=true);
 	}
 }
 
@@ -207,6 +204,6 @@ module button(transl) {
 module slider_support() {
 	slider_rot = asin(10/40);
 	rotate([0,0,-slider_rot])
-		translate([-18,11.1,-2.84])
-			cube([3.5,8.2,1], center=true);
+		translate([-18,11.1,-2.96])
+			cube([3.7,8.4,1], center=true);
 }
