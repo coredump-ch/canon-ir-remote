@@ -25,7 +25,7 @@ RES = 150;
 
 // MAIN
 
-// Uncomment the parts you want to hide.
+// Comment the parts you want to hide.
 part_top();
 part_bottom();
 part_button();
@@ -68,7 +68,7 @@ module part_button() {
 		cylinder(h=2.35, r=9.8, $fn=RES);
 		cylinder(h=1, r=11.3, $fn=RES);
 	}
-	translate([0,28,1]) cylinder(h=2.7, r=2.4, $fn=RES);
+	translate([0,28,1.2]) cylinder(h=2.7, r=2.4, $fn=RES);
 }
 
 // Plane to remove top/bottom half of the model
