@@ -13,23 +13,22 @@ Canon RC-1 IR remote control protocol:
 Code
 ----
 
-The code is written in C for the Atmel ATtiny13a microcontroller.
+The code is written in C for the Atmel ATtiny13a microcontroller, running at
+9.6MHz without the ``CKDIV8`` fuse set.
 
 To build the code::
 
     cd code
     make
 
-The makefile is configured for the ATtiny13a. To upload the hex file to the
-microcontroller::
+The makefile is configured for the ATtiny13a. First set the fuses::
 
-    cd code
+    make setfuses
+
+To upload the hex file to the microcontroller::
+
     make upload
 
-If you want to reset the fuses to the default settings::
-
-    cd code
-    make setfuses
 
 The code is based on the work of Luk from `doc-diy.net
 <http://www.doc-diy.net>`__ (http://www.doc-diy.net/photo/eos_ir_remote/). My

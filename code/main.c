@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/sleep.h>
 #include <util/delay.h>
 
 #define HPERIOD 0.01524
@@ -31,12 +32,16 @@ int main(void) {
     asm volatile ("nop");
     asm volatile ("nop");
 
-    // Main loop
-    while(1) {
-        flash_led();
+    // Flash LED
+    flash_led();
+    if (PINB & _BV(PINB0)) {
         _delay_ms(INSTANT);
-        flash_led();
-
-        _delay_ms(1000);
+    } else {
+        _delay_ms(DELAYED);
     }
+    flash_led();
+
+    // Power down
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    sleep_mode();
 }

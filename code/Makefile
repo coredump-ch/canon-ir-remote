@@ -5,10 +5,10 @@ PROGRAMMER = usbasp
 
 # ATtiny13a
 # To calculate the fuses, see http://www.engbedded.com/fusecalc
-LFUSE      = 0x6a
+LFUSE      = 0x7a
 HFUSE      = 0xff
 BITCLOCK   = 250
-F_CPU      = 1200000  # Main clock frequency (9.6Mhz/8 = 1.2Mhz)
+F_CPU      = 9600000  # Main clock frequency (9.6Mhz)
 
 # GCC config
 CC         = avr-gcc
