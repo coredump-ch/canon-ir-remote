@@ -10,6 +10,9 @@ Canon RC-1 IR remote control protocol:
 
 - http://www.doc-diy.net/photo/rc-1_hacked/index.php
 
+Blogpost about this project (German):
+http://www.coredump.ch/2014/01/04/diy-canon-ir-fernausloser/
+
 Code
 ----
 
@@ -44,3 +47,9 @@ regular 3D printer.
 The model is based on the design by Ted Lin
 (http://www.thingiverse.com/thing:9914). The modified version is licensed as CC
 BY-SA.
+
+Licenses
+--------
+
+- Sourcecode: MIT License
+- Case: CC BY-SA 3.0
